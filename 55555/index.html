@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* خلفية سوداء */
+            color: #fff; /* نص أبيض */
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            text-align: center;
+            padding: 10px 0;
+        }
+        h1 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .main-image {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .thumbnails img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, border 0.3s;
+        }
+        .thumbnails img:hover {
+            transform: scale(1.1);
+            border: 2px solid #007BFF;
+        }
+        .description {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 400px;
+            margin: auto;
+        }
+        .description h2 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .description p {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #ccc;
+        }
+        .description ul {
+            margin-top: 10px;
+            padding-left: 20px;
+            list-style: none;
+        }
+        .description ul li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .company-logo {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .company-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .popup.show {
+            display: flex;
+            opacity: 1;
+        }
+        .popup img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .main-image {
+                max-width: 100%;
+            }
+            .thumbnails img {
+                width: 60px;
+                height: 60px;
+            }
+            .description {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Name</h1>
+        
+        <!-- شعار الشركة -->
+        <div class="company-logo">
+            <img src="5324-SAN-Coastal-Drift_6.jpg" alt="Company Logo">
+        </div>
+
+        <!-- الصورة الرئيسية -->
+        <img src="5324-SAN-Coastal-Drift_5.jpg" alt="Main Image" id="mainImage" class="main-image">
+        
+        <!-- الصور المصغرة -->
+        <div class="thumbnails">
+            <img src="5324-SAN-Coastal-Drift_1.jpg" alt="Thumbnail 1" onclick="showPopup(this.src)">
+            <img src="5324-SAN-Coastal-Drift_2.jpg" alt="Thumbnail 2" onclick="showPopup(this.src)">
+            <img src="5324-SAN-Coastal-Drift_3.jpg" alt="Thumbnail 3" onclick="showPopup(this.src)">
+            <img src="5324-SAN-Coastal-Drift_4.jpg" alt="Thumbnail 4" onclick="showPopup(this.src)">
+        </div>
+
+        <!-- وصف المنتج -->
+        <div class="description">
+            <h2>Experience the Beauty of Nature</h2>
+            <p>
+                Bring the natural charm of <strong>Organic Lumber Counter Panels</strong> from El Fath Wood into your home! These panels are ideal for creating kitchens, dressing rooms, bathroom units, bedrooms, TV stands, offices, wall claddings, and other types of home furniture.
+            </p>
+            <ul>
+                <li>🌳 <strong>Natural Wooden Panels:</strong> Dried and durable.</li>
+                <li>🛡️ <strong>Scratch and Impact Resistant:</strong> Ensures longer lifespan.</li>
+                <li>💧 <strong>Waterproof and Moisture-Resistant:</strong> Perfect for kitchens and wet areas.</li>
+                <li>🔥 <strong>Heat-Resistant and Antibacterial:</strong> Protects against bacteria and fungi.</li>
+            </ul>
+        </div>
+
+        <!-- زر لمعرفة المزيد -->
+        <a href="#" class="button">Learn More</a>
+    </div>
+
+    <!-- النافذة المنبثقة -->
+    <div class="popup" id="popup">
+        <span class="close" onclick="closePopup()">×</span>
+        <img src="" alt="Popup Image" id="popupImage">
+    </div>
+
+    <script>
+        // عرض الصورة المنبثقة
+        function showPopup(src) {
+            const popup = document.getElementById('popup');
+            const popupImage = document.getElementById('popupImage');
+            popupImage.src = src;
+            popup.classList.add('show');
+        }
+
+        // إغلاق الصورة المنبثقة
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.remove('show');
+        }
+    </script>
+</body>
+</html>
